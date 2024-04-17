@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { MantineProvider } from '@mantine/core';
+import wineData from './Wine-Data';
+import Statistics from './Statistics';
 
-function App() {
+
+
+const App = () => {
+ const transformedData = wineData.map((wine : any) => {
+  return {...wine,Gamma : (wine.Ash * wine.Hue)/wine.Magnesium};
+ });
+ 
+ 
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <MantineProvider>
+      <div>
+        <h1>Flavanoids Based Calculations</h1>
+        <Statistics wineData={wineData} field = 'Flavanoids'/>
+      </div>
+      <div>
+        <h1>Gamma Based Calculations</h1>
+        <Statistics wineData={transformedData} field = 'Gamma'/>
+      </div>
+    </MantineProvider>
   );
-}
+};
 
 export default App;
